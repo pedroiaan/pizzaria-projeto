@@ -27,7 +27,17 @@ def helper(info= None):
 def action_pagina():
     return ctl.render('pagina')
 
+@app.route('/entrar')
+def page_entrar():
+    return ctl.render('login_cadastro')
 
+@app.route('/login', method='POST')
+def process_login():
+    return ctl.handle_login()
+
+@app.route('/cadastro', method='POST')
+def process_cadastro():
+    return ctl.handle_cadastro()
 
 #-----------------------------------------------------------------------------
 

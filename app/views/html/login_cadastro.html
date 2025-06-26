@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A melhor pizza da região, direto para sua casa" />
+    <title>Entrar ou Cadastrar - Bella Pizza</title>
+    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/principal.css" />
+    <link rel="stylesheet" href="/static/css/auth.css" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/pagina">Bella <span>•</span> Pizza</a>
+            </div>
+            <nav>
+                <ul class="leftside">
+                    <li><a href="/pagina">Início</a></li>
+                    <li><a href="#">Pizzas</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+                <div class="rightside">
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle-input">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </nav>
+            <div class="menu">
+                <div class="menu-inline"></div>
+                <div class="menu-inline"></div>
+                <div class="menu-inline"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="conteudo-principal-auth">
+            
+            <div class="form-container" id="login-container">
+                <h2 class="form-container-titulo">Fazer <span>Login</span></h2>
+                <div class="message-area">
+                    % if defined('login_success'):
+                        <p class="success">{{login_success}}</p>
+                    % elif defined('login_error'):
+                        <p class="error">{{login_error}}</p>
+                    % end
+                </div>
+                <form action="/login" method="post" style="display: contents;">
+                    <input type="email" name="email" placeholder="Seu email" required>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" placeholder="Sua senha" required id="login-password">
+                        <button type="button" class="toggle-password" data-target="login-password">👁️</button>
+                    </div>
+                    <button type="submit">Entrar</button>
+                </form>
+                <div class="form-divider">ou</div>
+                <p class="form-link">Não tem uma conta? <a href="#" id="show-register-link">Cadastre-se</a></p>
+            </div>
+
+            <div class="form-container" id="register-container" style="display: none;">
+                <h2 class="form-container-titulo">Criar <span>Conta</span></h2>
+                <div class="message-area">
+                    % if defined('cadastro_error'):
+                        <p class="error">{{cadastro_error}}</p>
+                    % end
+                </div>
+                <form action="/cadastro" method="post" style="display: contents;">
+                    <input type="text" name="name" placeholder="Nome completo" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" placeholder="Crie uma senha" required id="register-password">
+                        <button type="button" class="toggle-password" data-target="register-password">👁️</button>
+                    </div>
+                    <button type="submit">Cadastrar</button>
+                </form>
+                <div class="form-divider">ou</div>
+                <p class="form-link">Já tem uma conta? <a href="#" id="show-login-link">Entre</a></p>
+            </div>
+
+        </section>
+    </main>
+    
+    <script src="/static/js/modo-escuro.js"></script>
+    <script src="/static/js/auth_toggle.js"></script>
+    <script src="/static/js/password_toggle.js"></script>
+
+    % if defined('cadastro_error'):
+    <script>
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('register-container').style.display = 'flex';
+    </script>
+    % end
+</body>
+</html>

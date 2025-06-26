@@ -1,0 +1,228 @@
+/* auth.css - Estilo da página de login/cadastro (versão refinada) */
+
+.conteudo-principal-auth {
+    padding: 64px 20px; /* Adiciona padding lateral para telas menores */
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Centraliza verticalmente se houver espaço */
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 80px); /* Garante que o conteúdo ocupe a tela toda (descontando o header) */
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/bg-pizzaria.jpg'); /* Escurece um pouco o fundo para melhor leitura */
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white; /* Fundo branco sólido para contraste */
+    padding: 32px;
+    border-radius: 16px; /* Bordas um pouco menos arredondadas */
+    width: 100%;
+    max-width: 420px;
+    border-top: 5px solid #FF6B00;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-5px); /* Efeito de elevação sutil ao passar o mouse */
+}
+
+.form-container-titulo {
+    font-family: 'Righteous', sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    color: #333; /* Cor mais escura para o título para melhor legibilidade */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.form-container-titulo span {
+    color: #FF6B00; /* Destaque em laranja */
+}
+
+.form-container input {
+    background: #f7f7f7; /* Fundo levemente cinza para os inputs */
+    border: 2px solid transparent; /* Borda transparente por padrão */
+    border-radius: 10px;
+    height: 50px;
+    padding: 0 15px;
+    font-family: 'Sarala', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-container input:focus {
+    outline: none;
+    border-color: #FF6B00; /* Borda laranja ao focar no campo */
+    background-color: white;
+}
+
+.form-container button {
+    background-color: #FF6B00;
+    color: white;
+    font-family: 'Sarala', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #e05d00;
+    transform: translateY(-3px); /* Efeito de elevação no botão */
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+}
+
+.error {
+    color: #d9534f;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Sarala', sans-serif;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para os links de alternância e divisor */
+.form-link {
+    text-align: center;
+    font-family: 'Sarala', sans-serif;
+    font-size: 14px;
+}
+
+.form-link a {
+    color: #FF6B00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-divider {
+    text-align: center;
+    font-family: 'Sarala', sans-serif;
+    color: #aaa;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.form-divider::before, .form-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-divider:before {
+    margin-right: 1em;
+}
+
+.form-divider:after {
+    margin-left: 1em;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%; 
+    padding-right: 50px; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    cursor: pointer;
+    font-size: 18px;
+    color: #aaa;
+    opacity: 1; /* Deixamos o ícone sempre visível */
+}
+
+.toggle-password:hover {
+opacity: 1; 
+}
+.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Sarala', sans-serif;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+body.dark-mode .conteudo-principal-auth {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/bg-pizzaria.jpg');
+}
+
+body.dark-mode .form-container {
+    background-color: #2c2c2c; 
+    border-top: 5px solid #e05d00; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .form-container-titulo {
+    color: #f0f0f0;
+}
+
+body.dark-mode .form-container-titulo span {
+    color: #FF6B00; 
+}
+
+body.dark-mode .form-container input {
+    background: #3a3a3a; 
+    border-color: #555;
+    color: #f5f5f5; 
+}
+
+body.dark-mode .form-container input::placeholder {
+    color: #aaa; 
+}
+
+body.dark-mode .form-container input:focus {
+    border-color: #FF6B00; 
+    background-color: #444;
+}
+
+body.dark-mode .form-link {
+    color: #ccc; 
+}
+
+body.dark-mode .form-link a {
+    color: #FF6B00; 
+}
+
+body.dark-mode .form-divider {
+    color: #666; 
+}
+
+body.dark-mode .form-divider::before, 
+body.dark-mode .form-divider::after {
+    border-bottom-color: #444; 
+}
+
+body.dark-mode .toggle-password {
+    color: #888;
+}
