@@ -1,17 +1,15 @@
-/* auth.css - Estilo da página de login/cadastro (versão refinada) */
 
 .conteudo-principal-auth {
-    padding: 64px 20px; /* Adiciona padding lateral para telas menores */
+    padding: 64px 20px; 
     display: flex;
     flex-direction: row;
-    align-items: center; /* Centraliza verticalmente se houver espaço */
+    align-items: center; 
     justify-content: center;
     gap: 50px;
     flex-wrap: wrap;
-    min-height: calc(100vh - 80px); /* Garante que o conteúdo ocupe a tela toda (descontando o header) */
+    min-height: calc(100vh - 80px); 
     width: 100%;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/bg-pizzaria.jpg'); /* Escurece um pouco o fundo para melhor leitura */
-    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/bg-pizzaria.jpg'); 
     background-position: center;
     box-sizing: border-box;
 }
@@ -20,9 +18,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: white; /* Fundo branco sólido para contraste */
+    background-color: white; 
     padding: 32px;
-    border-radius: 16px; /* Bordas um pouco menos arredondadas */
+    border-radius: 16px; 
     width: 100%;
     max-width: 420px;
     border-top: 5px solid #FF6B00;
@@ -31,25 +29,25 @@
 }
 
 .form-container:hover {
-    transform: translateY(-5px); /* Efeito de elevação sutil ao passar o mouse */
+    transform: translateY(-5px); 
 }
 
 .form-container-titulo {
     font-family: 'Righteous', sans-serif;
     font-weight: 400;
     font-size: 28px;
-    color: #333; /* Cor mais escura para o título para melhor legibilidade */
+    color: #333; 
     text-align: center;
     margin-bottom: 10px;
 }
 
 .form-container-titulo span {
-    color: #FF6B00; /* Destaque em laranja */
+    color: #FF6B00; 
 }
 
 .form-container input {
-    background: #f7f7f7; /* Fundo levemente cinza para os inputs */
-    border: 2px solid transparent; /* Borda transparente por padrão */
+    background: #f7f7f7; 
+    border: 2px solid transparent; 
     border-radius: 10px;
     height: 50px;
     padding: 0 15px;
@@ -60,7 +58,7 @@
 
 .form-container input:focus {
     outline: none;
-    border-color: #FF6B00; /* Borda laranja ao focar no campo */
+    border-color: #FF6B00; 
     background-color: white;
 }
 
@@ -79,7 +77,7 @@
 
 .form-container button:hover {
     background-color: #e05d00;
-    transform: translateY(-3px); /* Efeito de elevação no botão */
+    transform: translateY(-3px); 
     box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
 }
 
@@ -96,7 +94,7 @@
     margin-bottom: 10px;
 }
 
-/* Estilo para os links de alternância e divisor */
+
 .form-link {
     text-align: center;
     font-family: 'Sarala', sans-serif;
@@ -155,7 +153,7 @@
     cursor: pointer;
     font-size: 18px;
     color: #aaa;
-    opacity: 1; /* Deixamos o ícone sempre visível */
+    opacity: 1; 
 }
 
 .toggle-password:hover {

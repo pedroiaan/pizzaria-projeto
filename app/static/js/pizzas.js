@@ -1,0 +1,9 @@
+let pizzaJson = [
+    {id: 1, name: 'Mussarela', img: 'static/img/pizza1.png', price: 20.19, sizes: ['100g', '530g', '860g'], description: 'É deliciosa pela sua simplicidade e pelo sabor suave e cremoso do queijo.'},
+    {id: 2, name: 'Calabresa', img:  'static/img/pizza2.png', price: 18.00, sizes: ['320g', '530g', '860g'], description: 'Se você gosta de sabores intensos e uma boa mistura de texturas, a pizza calabresa é uma excelente escolha!'},
+    {id: 3, name: 'Quatro Queijos', img: 'static/img/pizza3.png', price: 17.45, sizes: ['320g', '530g', '860g'], description: 'É uma pizza cremosa e indulgente, com um equilíbrio entre o sabor forte e suave dos queijos.'},
+    {id: 4, name: 'Americana', img: 'static/img/pizza4.png', price: 19.77, sizes: ['320g', '530g', '860g'], description:'O resultado é uma pizza robusta e cheia de sabor, com uma boa mistura de carnes e vegetais.'},
+    {id: 5, name: 'Sorvete', img: 'static/img/pizza5.png', price: 21.43, sizes: ['320g', '530g', '860g'], description: 'Ideal para momentos especiais ou para transformar qualquer dia em uma celebração! Venha e descubra o prazer de uma sobremesa que é puro amor em forma de pizza!"'},
+    {id: 6, name: 'Moda da Casa', img: 'static/img/pizza6.png', price: 18.55, sizes: ['320g', '530g', '860g'], description: 'Perfeita para quem busca algo inovador e delicioso. Não perca a chance de experimentar essa delícia que é a nossa assinatura!'},
+    {id: 7, name: 'Chocolate', img: 'static/img/pizza7.png', price: 22.36, sizes: ['320g', '530g', '860g'], description: 'Cada fatia é uma fusão perfeita de texturas e sabores que vão fazer você querer mais. Ideal para transformar qualquer momento em uma doce celebração. Experimente e deixe-se seduzir por essa sobremesa irresistível!'}
+]
