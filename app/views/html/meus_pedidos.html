@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos - Bella Pizza</title>
+    <link rel="stylesheet" href="/static/css/principal.css">
+    <link rel="stylesheet" href="/static/css/pedidos.css">
+    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon">
+</head>
+<body class="{{ 'dark-mode' if session.get('theme') == 'dark' else '' }}">
+    
+    <header>
+        <div class="container">
+            <div class="logo"><a href="/pagina">Bella <span>•</span> Pizza</a></div>
+            <nav>
+                <ul class="leftside">
+                    <li><a href="/compra">Pizzas</a></li>
+                    % if session and 'user_id' in session:
+                        <li><a href="/meus-pedidos">Meus Pedidos</a></li>
+                    % end
+                    <li><a href="">Contato</a></li>
+                </ul>
+                <div class="rightside">
+                    % if session and 'user_id' in session:
+                        <span class="nav-username">Olá, {{ session.get('user', 'Usuário') }}</span>
+                        <a href="/logout" class="button">Sair</a>
+                    % else:
+                        <a href="/login" class="button">Login / Cadastro</a>
+                    % end
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle-input" {{ 'checked' if session.get('theme') == 'dark' else '' }}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pedidos-main">
+        <div class="container">
+            <h1>Meus Pedidos</h1>
+            
+            % if not pedidos:
+                <p>Você ainda não fez nenhum pedido.</p>
+                <a href="/compra" class="button">Ver o cardápio</a>
+            % else:
+                <div class="pedidos-lista">
+                    % for pedido in pedidos:
+                        <div class="pedido-card" id="pedido-{{pedido['id']}}">
+                            <div class="pedido-header">
+                                <h2>Pedido #{{ pedido['id'] }}</h2>
+                                <span class="pedido-status">{{ pedido['status'] }}</span>
+                            </div>
+                            <div class="pedido-body">
+                                <p><strong>Data:</strong> {{ pedido['data_formatada'] }}</p>
+                                <p><strong>Total:</strong> R$ {{ "%.2f" % pedido['preco_total'] }}</p>
+                                <h4>Itens:</h4>
+                                <ul>
+                                    % for item in pedido['itens']:
+                                        <li>{{ item['quantidade'] }}x {{ item['nome_pizza'] }} ({{ item['tamanho'] }})</li>
+                                    % end
+                                </ul>
+                            </div>
+                            <div class="pedido-footer">
+                                % if pedido['status'] == 'Recebido':
+                                    <button class="btn-cancelar" data-id="{{pedido['id']}}">Cancelar Pedido</button>
+                                % end
+                            </div>
+                        </div>
+                    % end
+                </div>
+            % end
+        </div>
+    </main>
+    
+    <script src="/static/js/modo-escuro.js"></script>
+    <script>
+        document.querySelectorAll('.btn-cancelar').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const pedidoId = e.target.dataset.id;
+                if (confirm(`Tem certeza que deseja cancelar o pedido #${pedidoId}?`)) {
+                    fetch(`/api/pedidos/cancelar/${pedidoId}`, { method: 'POST' })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            document.getElementById(`pedido-${pedidoId}`).style.display = 'none';
+                        } else {
+                            alert('Erro: ' + (data.error || 'Não foi possível cancelar o pedido.'));
+                        }
+                    }).catch(err => console.error(err));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

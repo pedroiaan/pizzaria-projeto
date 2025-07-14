@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bella Pizza</title>
-    <link rel="stylesheet" href="/static/css/compras.css">
-    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
+    <title>Bella Pizza - Cardápio</title>
     <link rel="stylesheet" href="/static/css/principal.css" />
+    <link rel="stylesheet" href="/static/css/compras.css" />
+    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
 </head>
-
 <body>
     <header>
         <div class="container">
-            <div class="logo">
-                <a href="/pagina">Bella <span>•</span> Pizza</a>
-            </div>
+            <div class="logo"><a href="/pagina">Bella <span>•</span> Pizza</a></div>
             <nav>
                 <ul class="leftside">
-                    <li><a href="#">Pizzas</a></li>
-                    <li><a href="#">Contato</a></li>
+                    <li><a href="/compra">Pizzas</a></li>
+                    % if session and 'user_id' in session:
+                        <li><a href="/meus-pedidos">Meus Pedidos</a></li>
+                    % end
+                    <li><a href="">Contato</a></li>
                 </ul>
                 <div class="rightside">
+                    % if session and 'user_id' in session:
+                        <span class="nav-username">Olá, {{ session.get('user', 'Usuário') }}</span>
+                        <a href="/logout" class="button">Sair</a>
+                    % else:
+                        <a href="/login" class="button">Login / Cadastro</a>
+                    % end
                     <label class="theme-switch">
                         <input type="checkbox" id="theme-toggle-input">
                         <span class="slider"></span>
                     </label>
                 </div>
             </nav>
-            <div class="menu">
-                <div class="menu-inline"></div>
-                <div class="menu-inline"></div>
-                <div class="menu-inline"></div>
+            <div class="menu menu-opener">
+                <span>0</span>
+                🛒
             </div>
         </div>
     </header>
 
     <div class="models">
         <div class="pizza-item">
-            <a href="">
-                <div class="pizza-item--img">
-                    <img src="/app/static/img/pizza2.png" alt="">
-                </div>
+            <a>
+                <div class="pizza-item--img"><img src="" /></div>
                 <div class="pizza-item--add">+</div>
             </a>
             <div class="pizza-item--price">R$ --</div>
@@ -50,82 +52,58 @@
             <div class="pizza-item--desc">--</div>
         </div>
         <div class="cart--item">
-            <div class="pizzaIcon">
-                <img src="/app/static/img/pizza1.png" alt="">
-            </div>
-            <div class="cart--itemName">Quatro Queijos (G)</div>
+            <img src="" />
+            <div class="cart--itemName">--</div>
             <div class="cart--itemQt">
                 <button class="cart--itemQt--minus">-</button>
-                <div class="cart--itemQt--qt">3</div>
+                <div class="cart--itemQt--qt">1</div>
                 <button class="cart--itemQt--plus">+</button>
             </div>
         </div>
     </div>
-    <header>
-        <div class="menu-opener">
-            <span>0</span>
-            🛒
-        </div>
-    </header>
+
     <main>
-        <h1>Pizzas</h1>
-        <div class="container">
-            
-        </div>
+        <h1>Pizzas1</h1>
+        <div class="pizza-area"></div>
     </main>
+
     <aside>
         <div class="cart--area">
             <div class="menu-closer">❌</div>
             <h1>Suas Pizzas</h1>
-            <div class="cart">
-
-            </div>
+            <div class="cart"></div>
             <div class="cart--details">
-                <div class="cart--details--subTotal">Subtotal<span>R$ 20.19</span></div>
-                <div class="cart--details--discount">Desconto (-10%)<span>R$ 20.19</span></div>
-                <div class="cart--details--total">Total<span>R$ 20.19</span></div>
-                <button class="cart--button">Finalizar a compra</button>
+                <div class="cart--details--subTotal">Subtotal<span>R$ 0,00</span></div>
+                <div class="cart--details--discount">Desconto (-10%)<span>R$ 0,00</span></div>
+                <div class="cart--details--total">Total<span>R$ 0,00</span></div>
+                <button class="cart--button">Finalizar a Compra</button>
             </div>
         </div>
-
     </aside>
 
-    <div class="pizzaWindow">
-        <div class="pizzaWindoBody">
+    <div class="pizzaWindowArea">
+        <div class="pizzaWindowBody">
             <div class="pizzaInfo--CancelMobileButton">Voltar</div>
-            <div class="pizzaBig">
-                <img src="/app/static/img/pizza2.png" alt="">
-            </div>
+            <div class="pizzaBig"><img src="" /></div>
             <div class="pizzaInfo">
-                <h1>Calabresa</h1>
-                <div class="PizzaInfo--desc">
-                    Se você gosta de sabores intensos e uma boa mistura de texturas, a pizza calabresa é uma excelente escolha!
-                </div>
+                <h1>--</h1>
+                <div class="PizzaInfo--desc">--</div>
                 <div class="pizzaInfo--sizearea">
-                    <div class="pizzaInfo--sector">TAMANHO</div>
+                    <div class="pizzaInfo--sector">Tamanho</div>
                     <div class="pizzaInfo--sizes">
-                        <div data-key="0" class="pizzaInfo--size">
-                            PEQUENA
-                            <span>320g</span>
-                        </div>
-                        <div data-key="1" class="pizzaInfo--size">
-                            MÉDIA
-                            <span>530g</span>
-                        </div>
-                        <div data-key="2" class="pizzaInfo--size selected">
-                            GRANDE
-                            <span>860g</span>
-                        </div>
+                        <div data-key="0" class="pizzaInfo--size">PEQUENA <span>--</span></div>
+                        <div data-key="1" class="pizzaInfo--size">MÉDIA <span>--</span></div>
+                        <div data-key="2" class="pizzaInfo--size selected">GRANDE <span>--</span></div>
                     </div>
-                    <div class="pizzaInfo--pricearea">
-                        <div class="pizzaInfo--sector">Preço</div>
-                        <div class="pizzaInfo--price">
-                            <div class="pizzaInfo--actualPrice">R$ 17.45</div>
-                            <div class="pizzaInfo--qtarea">
-                                <button class="pizzaInfo--qtminus">-</button>
-                                <div class="pizzaInfo--qt">1</div>
-                                <button class="pizzaInfo--qtplus">+</button>
-                            </div>
+                </div>
+                <div class="pizzaInfo--pricearea">
+                    <div class="pizzaInfo--sector">Preço</div>
+                    <div class="pizzaInfo--price">
+                        <div class="pizzaInfo--actualPrice">R$ --</div>
+                        <div class="pizzaInfo--qtarea">
+                            <button class="pizzaInfo--qtminus">-</button>
+                            <div class="pizzaInfo--qt">1</div>
+                            <button class="pizzaInfo--qtplus">+</button>
                         </div>
                     </div>
                 </div>
@@ -134,9 +112,9 @@
             </div>
         </div>
     </div>
-
+    
     <script src="/static/js/pizzas.js"></script>
     <script src="/static/js/script.js"></script>
+    <script src="/static/js/modo-escuro.js"></script>
 </body>
-
 </html>

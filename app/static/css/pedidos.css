@@ -1,0 +1,66 @@
+.pedidos-main {
+    padding: 120px 20px 40px 20px;
+    flex: 1;
+}
+.pedidos-main h1 {
+    font-family: 'Hepta Slab', Helvetica, serif;
+    margin-bottom: 30px;
+}
+.pedido-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+body.dark-mode .pedido-card {
+    background-color: #2e2e2e;
+    border: 1px solid #444;
+}
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+body.dark-mode .pedido-header {
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #444;
+}
+.pedido-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+.pedido-status {
+    background-color: #FF6B00; /* Cor laranja do projeto */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.pedido-body { padding: 20px; }
+.pedido-body h4 { margin-top: 15px; }
+.pedido-body ul {
+    list-style-position: inside;
+    padding-left: 5px;
+}
+.pedido-footer {
+    padding: 0 20px 20px 20px;
+    text-align: right;
+}
+.btn-cancelar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+.btn-cancelar:hover {
+    background-color: #c0392b;
+}
