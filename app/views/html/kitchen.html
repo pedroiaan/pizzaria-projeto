@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cozinha - Painel de Pedidos</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #d35400; }
+        .pedido { border: 2px solid #e67e22; border-radius: 5px; padding: 15px; margin-bottom: 15px; background-color: #fffaf0; }
+        .pedido h2 { margin-top: 0; }
+        .pedido ul { list-style: none; padding-left: 0; }
+    </style>
+    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
+</head>
+<body>
+
+<div class="container">
+    <h1>Painel da Cozinha (Pedidos em Tempo Real)</h1>
+    <div id="pedidos-lista">
+        </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+<script>
+    // 2. Conectar ao servidor WebSocket
+    const sio = io();
+
+    sio.on('connect', () => {
+        console.log('Conectado ao servidor da cozinha!');
+    });
+
+    // 3. Ouvir o evento 'novo_pedido'
+    sio.on('novo_pedido', (data) => {
+        console.log('Novo pedido recebido:', data);
+        
+        const listaPedidos = document.getElementById('pedidos-lista');
+        
+        // Criar o HTML para o novo pedido
+        const novoPedidoDiv = document.createElement('div');
+        novoPedidoDiv.className = 'pedido';
+        
+        let itemsHtml = '<ul>';
+        data.items.forEach(item => {
+            itemsHtml += `<li>${item.quantidade}x ${item.nome}</li>`;
+        });
+        itemsHtml += '</ul>';
+
+        novoPedidoDiv.innerHTML = `
+            <h2>Pedido #${data.id} - Cliente: ${data.cliente}</h2>
+            ${itemsHtml}
+            <p><strong>Total: R$ ${data.total}</strong></p>
+        `;
+        
+        // Adicionar o novo pedido no topo da lista
+        listaPedidos.prepend(novoPedidoDiv);
+    });
+
+</script>
+
+</body>
+</html>

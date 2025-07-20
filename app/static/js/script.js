@@ -7,6 +7,7 @@ const cs = (el) => document.querySelectorAll(el);
 
 // --- FUNÇÕES AUXILIARES ---
 const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
+
 const closeModal = () => {
     c('.pizzaWindowArea').style.opacity = 0;
     setTimeout(() => { c('.pizzaWindowArea').style.display = 'none'; }, 200);
@@ -17,8 +18,11 @@ function updatePrice() {
     const pizza = pizzaJson[modalKey];
     const sizeIndex = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
     let price = pizza.price;
+
+    // Ajusta o preço com base no tamanho (lógica original)
     if (sizeIndex === 0) price *= 0.85; // Pequena
     if (sizeIndex === 2) price *= 1.15; // Grande
+
     c('.pizzaInfo--actualPrice').innerHTML = formatPrice(price * modalQt);
 }
 
@@ -34,8 +38,6 @@ function openModal(key) {
 
     cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
         if (sizeIndex === 1) size.classList.add('selected'); else size.classList.remove('selected');
-        // --- ESTA É A LINHA QUE FAZ A MÁGICA ---
-        // Ela preenche o 'span' com a informação de tamanho vinda do pizzas.js
         size.querySelector('span').innerHTML = pizza.sizes[sizeIndex];
     });
     
@@ -61,6 +63,7 @@ function updateCart() {
         for (let i in cart) {
             let pizzaItem = pizzaJson.find(item => item.id == cart[i].id);
             let itemPrice = pizzaItem.price;
+
             if (cart[i].size === 0) itemPrice *= 0.85;
             if (cart[i].size === 2) itemPrice *= 1.15;
             subtotal += itemPrice * cart[i].qt;
@@ -147,12 +150,18 @@ c('.menu-opener').addEventListener('click', () => {
 });
 c('.menu-closer').addEventListener('click', () => { c('aside').style.left = '100vw'; });
 
-// 4. Finalizar Pedido
+// 4. ✅ FINALIZAR PEDIDO (VERSÃO FINAL E CORRETA)
 c('.cart--button').addEventListener('click', () => {
-    if (cart.length === 0) { alert("Seu carrinho está vazio!"); return; }
+    if (cart.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    // Prepara os dados do pedido para enviar ao backend
     const orderData = cart.map((cartItem) => {
         const pizza = pizzaJson.find(p => p.id == cartItem.id);
-        let sizeName; let itemPrice = pizza.price;
+        let sizeName; 
+        let itemPrice = pizza.price;
         switch(cartItem.size) {
             case 0: sizeName = 'P'; itemPrice *= 0.85; break;
             case 1: sizeName = 'M'; break;
@@ -160,18 +169,42 @@ c('.cart--button').addEventListener('click', () => {
         }
         return { name: pizza.name, size: sizeName, qt: cartItem.qt, price: itemPrice };
     });
-    fetch('/api/pedidos/criar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(orderData) })
+
+    // Envia os dados para a API
+    fetch('/api/pedidos/criar', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(orderData) 
+    })
     .then(res => {
-        if (res.status === 401) { alert("Você precisa estar logado para finalizar o pedido."); window.location.href = '/login'; return null; }
+        if (res.status === 401) {
+            alert("Você precisa estar logado para finalizar o pedido.");
+            window.location.href = '/login';
+            throw new Error('Não autenticado'); // Pára a execução
+        }
+        if (!res.ok) {
+            alert('Ocorreu um erro no servidor. Tente novamente.');
+            throw new Error('Erro no servidor'); // Pára a execução
+        }
         return res.json();
-    }).then(data => {
-        if (data && data.success) {
-            alert(`Pedido #${data.pedido_id} realizado!`);
-            cart = []; updateCart(); window.location.href = '/meus-pedidos';
-        } else if (data && data.error) { alert('Erro: ' + data.error); }
-    }).catch(err => {
-        if (err && err.name !== 'AbortError' && !err.message.includes('JSON')) {
-             console.error('Erro ao finalizar pedido:', err);
+    })
+    .then(data => {
+        if (data && data.id) {
+            alert(`Pedido #${data.id} realizado com sucesso!`);
+            
+            // Limpa o carrinho e redireciona
+            cart = []; 
+            updateCart(); // A própria updateCart() já fecha o 'aside' se o carrinho estiver vazio
+            
+            setTimeout(() => {
+                window.location.href = '/meus-pedidos';
+            }, 300);
+        }
+    })
+    .catch(error => {
+        // O catch só será executado se houver um erro real (de rede, ou que nós lançámos)
+        if (error.message !== 'Não autenticado' && error.message !== 'Erro no servidor') {
+            console.error('Erro inesperado ao finalizar pedido:', error);
         }
     });
 });

@@ -2,119 +2,80 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bella Pizza - Cardápio</title>
-    <link rel="stylesheet" href="/static/css/principal.css" />
-    <link rel="stylesheet" href="/static/css/compras.css" />
-    <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
+    <title>Finalizar Compra - Bella Pizza</title>
+    <link rel="stylesheet" href="/static/css/principal.css">
+    <link rel="stylesheet" href="/static/css/compras.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo"><a href="/pagina">Bella <span>•</span> Pizza</a></div>
-            <nav>
-                <ul class="leftside">
-                    <li><a href="/compra">Pizzas</a></li>
-                    % if session and 'user_id' in session:
-                        <li><a href="/meus-pedidos">Meus Pedidos</a></li>
-                    % end
-                    <li><a href="">Contato</a></li>
-                </ul>
-                <div class="rightside">
-                    % if session and 'user_id' in session:
-                        <span class="nav-username">Olá, {{ session.get('user', 'Usuário') }}</span>
-                        <a href="/logout" class="button">Sair</a>
-                    % else:
-                        <a href="/login" class="button">Login / Cadastro</a>
-                    % end
-                    <label class="theme-switch">
-                        <input type="checkbox" id="theme-toggle-input">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </nav>
-            <div class="menu menu-opener">
-                <span>0</span>
-                🛒
-            </div>
-        </div>
-    </header>
+    %include('app/views/html/helper.tpl', is_logged_in=is_logged_in, user_name=user_name)
 
-    <div class="models">
-        <div class="pizza-item">
-            <a>
-                <div class="pizza-item--img"><img src="" /></div>
-                <div class="pizza-item--add">+</div>
-            </a>
-            <div class="pizza-item--price">R$ --</div>
-            <div class="pizza-item--name">--</div>
-            <div class="pizza-item--desc">--</div>
+    <main class="container">
+        <h1>Finalizar Compra</h1>
+        <div class="compra-resumo">
+            <h2>Resumo do Pedido</h2>
+            <div id="resumo-carrinho"><p>A carregar resumo...</p></div>
+            <p class="total">Total: <strong id="total-carrinho">R$ 0,00</strong></p>
         </div>
-        <div class="cart--item">
-            <img src="" />
-            <div class="cart--itemName">--</div>
-            <div class="cart--itemQt">
-                <button class="cart--itemQt--minus">-</button>
-                <div class="cart--itemQt--qt">1</div>
-                <button class="cart--itemQt--plus">+</button>
-            </div>
-        </div>
-    </div>
 
-    <main>
-        <h1>Pizzas1</h1>
-        <div class="pizza-area"></div>
+        <form id="form-compra" class="form-compra">
+            <h3>Seus Dados</h3>
+            <p>Olá, <strong>{{user_name}}</strong>! Tudo pronto para o seu pedido?</p>
+            <button type="submit" class="btn-finalizar">Confirmar e Finalizar Compra</button>
+        </form>
     </main>
 
-    <aside>
-        <div class="cart--area">
-            <div class="menu-closer">❌</div>
-            <h1>Suas Pizzas</h1>
-            <div class="cart"></div>
-            <div class="cart--details">
-                <div class="cart--details--subTotal">Subtotal<span>R$ 0,00</span></div>
-                <div class="cart--details--discount">Desconto (-10%)<span>R$ 0,00</span></div>
-                <div class="cart--details--total">Total<span>R$ 0,00</span></div>
-                <button class="cart--button">Finalizar a Compra</button>
-            </div>
-        </div>
-    </aside>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const resumoContainer = document.getElementById('resumo-carrinho');
+            const totalElement = document.getElementById('total-carrinho');
+            let precoTotal = 0;
 
-    <div class="pizzaWindowArea">
-        <div class="pizzaWindowBody">
-            <div class="pizzaInfo--CancelMobileButton">Voltar</div>
-            <div class="pizzaBig"><img src="" /></div>
-            <div class="pizzaInfo">
-                <h1>--</h1>
-                <div class="PizzaInfo--desc">--</div>
-                <div class="pizzaInfo--sizearea">
-                    <div class="pizzaInfo--sector">Tamanho</div>
-                    <div class="pizzaInfo--sizes">
-                        <div data-key="0" class="pizzaInfo--size">PEQUENA <span>--</span></div>
-                        <div data-key="1" class="pizzaInfo--size">MÉDIA <span>--</span></div>
-                        <div data-key="2" class="pizzaInfo--size selected">GRANDE <span>--</span></div>
-                    </div>
-                </div>
-                <div class="pizzaInfo--pricearea">
-                    <div class="pizzaInfo--sector">Preço</div>
-                    <div class="pizzaInfo--price">
-                        <div class="pizzaInfo--actualPrice">R$ --</div>
-                        <div class="pizzaInfo--qtarea">
-                            <button class="pizzaInfo--qtminus">-</button>
-                            <div class="pizzaInfo--qt">1</div>
-                            <button class="pizzaInfo--qtplus">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="pizzaInfo--addButton">Adicionar ao carrinho</div>
-                <div class="pizzaInfo--cancelButton">Cancelar</div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="/static/js/pizzas.js"></script>
-    <script src="/static/js/script.js"></script>
-    <script src="/static/js/modo-escuro.js"></script>
+            if (carrinho.length > 0) {
+                resumoContainer.innerHTML = ''; // Limpa a mensagem "a carregar"
+                const ul = document.createElement('ul');
+                carrinho.forEach(item => {
+                    const itemTotal = item.price * item.qt;
+                    precoTotal += itemTotal;
+                    const li = document.createElement('li');
+                    li.textContent = `${item.qt}x ${item.name} (${item.size}) - R$ ${itemTotal.toFixed(2)}`;
+                    ul.appendChild(li);
+                });
+                resumoContainer.appendChild(ul);
+            } else {
+                resumoContainer.innerHTML = '<p>Seu carrinho está vazio. Volte ao cardápio para adicionar itens.</p>';
+                document.querySelector('.btn-finalizar').disabled = true;
+            }
+            totalElement.textContent = `R$ ${precoTotal.toFixed(2)}`;
+
+            document.getElementById('form-compra').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                fetch('/api/pedidos/criar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(carrinho)
+                })
+                .then(response => {
+                    if (!response.ok) { throw new Error('Erro no servidor'); }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.id) {
+                        localStorage.removeItem('carrinho');
+                        alert('Pedido #' + data.id + ' realizado com sucesso!');
+                        window.location.href = '/meus-pedidos';
+                    } else {
+                        throw new Error('Resposta inválida do servidor.');
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Erro ao finalizar a compra:', error);
+                    alert('Ocorreu um erro ao finalizar a sua compra. Por favor, tente novamente.');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
